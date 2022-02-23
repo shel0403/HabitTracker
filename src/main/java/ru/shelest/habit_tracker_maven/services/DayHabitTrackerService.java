@@ -1,8 +1,10 @@
 package ru.shelest.habit_tracker_maven.services;
 
 import org.springframework.stereotype.Service;
+import ru.shelest.habit_tracker_maven.models.DayHabitTracker;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public interface DayHabitTrackerService {
@@ -15,4 +17,7 @@ public interface DayHabitTrackerService {
     Boolean changeListeningStatusByDate(LocalDate date);
     Boolean changeSpeakingStatusByDate(LocalDate date);
     Boolean changeReadingStatusByDate(LocalDate date);
+    DayHabitTracker save(final DayHabitTracker dayHabitTracker);
+    DayHabitTracker getDayHabitTrackerByDate(LocalDate date);
+    List<DayHabitTracker> fetchAll();
 }

@@ -3,12 +3,15 @@ package ru.shelest.habit_tracker_maven.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shelest.habit_tracker_maven.exceptions.NoSuchDateException;
+import ru.shelest.habit_tracker_maven.exceptions.NoSuchTrackerException;
 import ru.shelest.habit_tracker_maven.models.DayHabitTracker;
 import ru.shelest.habit_tracker_maven.repositories.DayHabitTrackerRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ru.shelest.habit_tracker_maven.utils.ConditionCheck.requireNonNull;
 
 @Service
 public class DayHabitTrackerServiceImpl implements DayHabitTrackerService {
@@ -44,55 +47,85 @@ public class DayHabitTrackerServiceImpl implements DayHabitTrackerService {
     public Boolean changeWritingStatusByDate(LocalDate date) {
         final var trackers = getDayHabitsTrackersByDate(date);
 
-        final DayHabitTracker tracker = trackers.isEmpty() ?
-                new DayHabitTracker(date) : trackers.get(0);
+        if (trackers.isEmpty()) {
+            final var toChange = new DayHabitTracker(date);
+            toChange.changeWritingStatus();
+            this.save(toChange);
 
-        final var result = tracker.changeWritingStatus();
-        this.repository.save(tracker);
+            return toChange.getWriting();
+        }
 
-        return result;
+        final var toChange = trackers.get(0);
+        toChange.changeWritingStatus();
+        this.update(toChange, toChange.getId());
+
+        return toChange.getWriting();
     }
 
     @Override
     public Boolean changeListeningStatusByDate(LocalDate date) {
         final var trackers = getDayHabitsTrackersByDate(date);
 
-        final DayHabitTracker tracker = trackers.isEmpty() ?
-                new DayHabitTracker(date) : trackers.get(0);
+        if (trackers.isEmpty()) {
+            final var toChange = new DayHabitTracker(date);
+            toChange.changeListeningStatus();
+            this.save(toChange);
 
-        final var result = tracker.changeListeningStatus();
-        this.repository.save(tracker);
+            return toChange.getListening();
+        }
 
-        return result;
+        final var toChange = trackers.get(0);
+        toChange.changeListeningStatus();
+        this.update(toChange, toChange.getId());
+
+        return toChange.getListening();
     }
 
     @Override
     public Boolean changeSpeakingStatusByDate(LocalDate date) {
         final var trackers = getDayHabitsTrackersByDate(date);
 
-        final DayHabitTracker tracker = trackers.isEmpty() ?
-                new DayHabitTracker(date) : trackers.get(0);
+        if (trackers.isEmpty()) {
+            final var toChange = new DayHabitTracker(date);
+            toChange.changeSpeakingStatus();
+            this.save(toChange);
 
-        final var result = tracker.changeSpeakingStatus();
-        this.repository.save(tracker);
+            return toChange.getSpeaking();
+        }
 
-        return result;
+        final var toChange = trackers.get(0);
+        toChange.changeSpeakingStatus();
+        this.update(toChange, toChange.getId());
+
+        return toChange.getSpeaking();
     }
 
     @Override
     public Boolean changeReadingStatusByDate(LocalDate date) {
         final var trackers = getDayHabitsTrackersByDate(date);
 
-        final DayHabitTracker tracker = trackers.isEmpty() ?
-                new DayHabitTracker(date) : trackers.get(0);
+        if (trackers.isEmpty()) {
+            final var toChange = new DayHabitTracker(date);
+            toChange.changeReadingStatus();
+            this.save(toChange);
 
-        final var result = tracker.changeReadingStatus();
-        this.repository.save(tracker);
+            return toChange.getReading();
+        }
 
-        return result;
+        final var toChange = trackers.get(0);
+        toChange.changeReadingStatus();
+        this.update(toChange, toChange.getId());
+
+        return toChange.getReading();
     }
 
-    private DayHabitTracker getDayHabitTrackerByDate(final LocalDate date) {
+    @Override
+    public DayHabitTracker save(final DayHabitTracker dayHabitTracker) {
+        return repository.save(dayHabitTracker);
+    }
+
+    @Override
+    public DayHabitTracker getDayHabitTrackerByDate(final LocalDate date) {
         final List<DayHabitTracker> habitTrackers = getDayHabitsTrackersByDate(date);
 
         if (habitTrackers.isEmpty()) {
@@ -102,14 +135,44 @@ public class DayHabitTrackerServiceImpl implements DayHabitTrackerService {
         return habitTrackers.get(0);
     }
 
-    private List<DayHabitTracker> getDayHabitsTrackersByDate(final LocalDate date) {
+    public List<DayHabitTracker> getDayHabitsTrackersByDate(final LocalDate date) {
         return this.fetchAll().stream()
                 .filter(tracker -> tracker.getDate().equals(date))
                 .limit(1)
                 .collect(Collectors.toList());
     }
 
-    private List<DayHabitTracker> fetchAll() {
+    @Override
+    public List<DayHabitTracker> fetchAll() {
         return repository.findAll();
+    }
+
+    public DayHabitTracker update(final DayHabitTracker dayHabitTracker, final Long id) {
+        final var toUpdate = repository.findById(id)
+                .orElseThrow(NoSuchTrackerException::new);
+
+        final var writing = dayHabitTracker.getWriting();
+        final var listening = dayHabitTracker.getListening();
+        final var speaking = dayHabitTracker.getSpeaking();
+        final var reading = dayHabitTracker.getReading();
+        final var date = dayHabitTracker.getDate();
+
+        requireNonNull(writing);
+        requireNonNull(listening);
+        requireNonNull(speaking);
+        requireNonNull(reading);
+        requireNonNull(date);
+
+        toUpdate.setWriting(writing);
+        toUpdate.setListening(listening);
+        toUpdate.setSpeaking(speaking);
+        toUpdate.setReading(reading);
+        toUpdate.setDate(date);
+
+        return repository.save(toUpdate);
+    }
+
+    public void deleteById(final Long id) {
+        repository.deleteById(id);
     }
 }

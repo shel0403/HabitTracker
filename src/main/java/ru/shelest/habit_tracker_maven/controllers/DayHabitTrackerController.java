@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.shelest.habit_tracker_maven.exceptions.NoSuchDateException;
+import ru.shelest.habit_tracker_maven.models.Date;
 import ru.shelest.habit_tracker_maven.services.DayHabitTrackerService;
-
-import java.time.LocalDate;
 
 @RestController
 public class DayHabitTrackerController {
@@ -25,11 +24,11 @@ public class DayHabitTrackerController {
     }
 
     @PostMapping("/show/writing")
-    public ResponseEntity<Boolean> getWritingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> getWritingStatusByDate(@RequestBody Date date) {
         try {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                    .body(this.dayHabitTrackerService.getWritingStatusByDate(date));
+                    .body(this.dayHabitTrackerService.getWritingStatusByDate(date.toLocalDate()));
         } catch (NoSuchDateException exception) {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
@@ -38,11 +37,11 @@ public class DayHabitTrackerController {
     }
 
     @PostMapping("/show/listening")
-    public ResponseEntity<Boolean> getListeningStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> getListeningStatusByDate(@RequestBody Date date) {
         try {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                    .body(this.dayHabitTrackerService.getListeningStatusByDate(date));
+                    .body(this.dayHabitTrackerService.getListeningStatusByDate(date.toLocalDate()));
         } catch (NoSuchDateException exception) {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
@@ -51,11 +50,11 @@ public class DayHabitTrackerController {
     }
 
     @PostMapping("/show/speaking")
-    public ResponseEntity<Boolean> getSpeakingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> getSpeakingStatusByDate(@RequestBody Date date) {
         try {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                    .body(this.dayHabitTrackerService.getSpeakingStatusByDate(date));
+                    .body(this.dayHabitTrackerService.getSpeakingStatusByDate(date.toLocalDate()));
         } catch (NoSuchDateException exception) {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
@@ -64,11 +63,11 @@ public class DayHabitTrackerController {
     }
 
     @PostMapping("/show/reading")
-    public ResponseEntity<Boolean> getReadingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> getReadingStatusByDate(@RequestBody Date date) {
         try {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                    .body(this.dayHabitTrackerService.getReadingStatusByDate(date));
+                    .body(this.dayHabitTrackerService.getReadingStatusByDate(date.toLocalDate()));
         } catch (NoSuchDateException exception) {
             return ResponseEntity.ok()
                     .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
@@ -77,30 +76,30 @@ public class DayHabitTrackerController {
     }
 
     @PostMapping("/change/writing")
-    public ResponseEntity<Boolean> changeWritingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> changeWritingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                .body(this.dayHabitTrackerService.changeWritingStatusByDate(date));
+                .body(this.dayHabitTrackerService.changeWritingStatusByDate(date.toLocalDate()));
     }
 
     @PostMapping("/change/listening")
-    public ResponseEntity<Boolean> changeListeningStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> changeListeningStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                .body(this.dayHabitTrackerService.changeListeningStatusByDate(date));
+                .body(this.dayHabitTrackerService.changeListeningStatusByDate(date.toLocalDate()));
     }
 
     @PostMapping("/change/speaking")
-    public ResponseEntity<Boolean> changeSpeakingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> changeSpeakingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                .body(this.dayHabitTrackerService.changeSpeakingStatusByDate(date));
+                .body(this.dayHabitTrackerService.changeSpeakingStatusByDate(date.toLocalDate()));
     }
 
     @PostMapping("/change/reading")
-    public ResponseEntity<Boolean> changeReadingStatusByDate(@RequestBody LocalDate date) {
+    public ResponseEntity<Boolean> changeReadingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
-                .body(this.dayHabitTrackerService.changeReadingStatusByDate(date));
+                .body(this.dayHabitTrackerService.changeReadingStatusByDate(date.toLocalDate()));
     }
 }

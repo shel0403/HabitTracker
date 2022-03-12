@@ -11,7 +11,10 @@ public final class ConditionCheck {
         check(condition, () -> "");
     }
 
-    public static void check(boolean condition, final Supplier<String> exceptionMessageSupplier) {
+    public static void check(
+            boolean condition,
+            final Supplier<String> exceptionMessageSupplier
+    ) {
         if (!condition) {
             throw new IllegalStateException(exceptionMessageSupplier.get());
         }
@@ -21,7 +24,10 @@ public final class ConditionCheck {
         requireNonNull(object, () -> "");
     }
 
-    public static void requireNonNull(final Object object, final Supplier<String> exceptionMessageSupplier) {
+    public static void requireNonNull(
+            final Object object,
+            final Supplier<String> exceptionMessageSupplier
+    ) {
         require(object != null, exceptionMessageSupplier);
     }
 
@@ -29,7 +35,10 @@ public final class ConditionCheck {
         require(condition, () -> "");
     }
 
-    public static void require(boolean condition, final Supplier<String> exceptionMessageSupplier) {
+    public static void require(
+            boolean condition,
+            final Supplier<String> exceptionMessageSupplier
+    ) {
         if (!condition) {
             throw new IllegalArgumentException(exceptionMessageSupplier.get());
         }

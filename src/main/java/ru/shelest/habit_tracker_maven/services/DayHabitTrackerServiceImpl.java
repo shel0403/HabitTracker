@@ -120,8 +120,8 @@ public class DayHabitTrackerServiceImpl implements DayHabitTrackerService {
     }
 
     @Override
-    public DayHabitTracker save(final DayHabitTracker dayHabitTracker) {
-        return repository.save(dayHabitTracker);
+    public void save(final DayHabitTracker dayHabitTracker) {
+        repository.save(dayHabitTracker);
     }
 
     @Override

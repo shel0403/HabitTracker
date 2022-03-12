@@ -2,6 +2,7 @@ package ru.shelest.habit_tracker_maven.controllers;
 
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,11 @@ public class CalendarController {
     @Autowired
     public CalendarController(DayHabitTrackerService dayHabitTrackerService) {
         this.dayHabitTrackerService = dayHabitTrackerService;
+    }
+
+    @GetMapping("/calendar/init")
+    public List<DayHabitTracker> initCalendarFromCurrentDate() {
+        return this.createCalendarFromStartOfWeekContainsDate(Date.now());
     }
 
     @PostMapping("/calendar/create")

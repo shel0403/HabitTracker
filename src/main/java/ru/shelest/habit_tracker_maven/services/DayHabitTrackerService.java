@@ -17,7 +17,7 @@ public interface DayHabitTrackerService {
     Boolean changeListeningStatusByDate(LocalDate date);
     Boolean changeSpeakingStatusByDate(LocalDate date);
     Boolean changeReadingStatusByDate(LocalDate date);
-    DayHabitTracker save(final DayHabitTracker dayHabitTracker);
+    void save(final DayHabitTracker dayHabitTracker);
     DayHabitTracker getDayHabitTrackerByDate(LocalDate date);
     List<DayHabitTracker> fetchAll();
 }

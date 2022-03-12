@@ -3,6 +3,7 @@ package ru.shelest.habit_tracker_maven.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.shelest.habit_tracker_maven.exceptions.NoSuchDateException;
@@ -75,28 +76,28 @@ public class DayHabitTrackerController {
         }
     }
 
-    @PostMapping("/change/writing")
+    @PutMapping("/change/writing")
     public ResponseEntity<Boolean> changeWritingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
                 .body(this.dayHabitTrackerService.changeWritingStatusByDate(date.toLocalDate()));
     }
 
-    @PostMapping("/change/listening")
+    @PutMapping("/change/listening")
     public ResponseEntity<Boolean> changeListeningStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
                 .body(this.dayHabitTrackerService.changeListeningStatusByDate(date.toLocalDate()));
     }
 
-    @PostMapping("/change/speaking")
+    @PutMapping("/change/speaking")
     public ResponseEntity<Boolean> changeSpeakingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)
                 .body(this.dayHabitTrackerService.changeSpeakingStatusByDate(date.toLocalDate()));
     }
 
-    @PostMapping("/change/reading")
+    @PutMapping("/change/reading")
     public ResponseEntity<Boolean> changeReadingStatusByDate(@RequestBody Date date) {
         return ResponseEntity.ok()
                 .header(DEFAULT_HEADER_NAME, DEFAULT_HEADER_VALUE)

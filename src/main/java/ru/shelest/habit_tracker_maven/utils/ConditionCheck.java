@@ -7,15 +7,6 @@ public final class ConditionCheck {
     private ConditionCheck() {
     }
 
-    public static void check(
-            boolean condition,
-            final Supplier<RuntimeException> exceptionSupplier
-    ) {
-        if (!condition) {
-            throw exceptionSupplier.get();
-        }
-    }
-
     public static void requireNonNull(
             final Object object,
             final Supplier<RuntimeException> exceptionSupplier

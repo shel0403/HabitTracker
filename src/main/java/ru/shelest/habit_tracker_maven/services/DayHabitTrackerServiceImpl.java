@@ -157,11 +157,13 @@ public class DayHabitTrackerServiceImpl implements DayHabitTrackerService {
         final var reading = dayHabitTracker.getReading();
         final var date = dayHabitTracker.getDate();
 
-        requireNonNull(writing);
-        requireNonNull(listening);
-        requireNonNull(speaking);
-        requireNonNull(reading);
-        requireNonNull(date);
+        final var requireNonNullMessage = "Value is null!";
+
+        requireNonNull(writing, () -> new IllegalArgumentException(requireNonNullMessage));
+        requireNonNull(listening, () -> new IllegalArgumentException(requireNonNullMessage));
+        requireNonNull(speaking, () -> new IllegalArgumentException(requireNonNullMessage));
+        requireNonNull(reading, () -> new IllegalArgumentException(requireNonNullMessage));
+        requireNonNull(date, () -> new IllegalArgumentException(requireNonNullMessage));
 
         toUpdate.setWriting(writing);
         toUpdate.setListening(listening);

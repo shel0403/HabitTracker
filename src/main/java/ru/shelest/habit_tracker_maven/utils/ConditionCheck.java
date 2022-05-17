@@ -7,40 +7,28 @@ public final class ConditionCheck {
     private ConditionCheck() {
     }
 
-    public static void check(boolean condition) {
-        check(condition, () -> "");
-    }
-
     public static void check(
             boolean condition,
-            final Supplier<String> exceptionMessageSupplier
+            final Supplier<RuntimeException> exceptionSupplier
     ) {
         if (!condition) {
-            throw new IllegalStateException(exceptionMessageSupplier.get());
+            throw exceptionSupplier.get();
         }
-    }
-
-    public static void requireNonNull(final Object object) {
-        requireNonNull(object, () -> "");
     }
 
     public static void requireNonNull(
             final Object object,
-            final Supplier<String> exceptionMessageSupplier
+            final Supplier<RuntimeException> exceptionSupplier
     ) {
-        require(object != null, exceptionMessageSupplier);
-    }
-
-    public static void require(boolean condition) {
-        require(condition, () -> "");
+        require(object != null, exceptionSupplier);
     }
 
     public static void require(
             boolean condition,
-            final Supplier<String> exceptionMessageSupplier
+            final Supplier<RuntimeException> exceptionSupplier
     ) {
         if (!condition) {
-            throw new IllegalArgumentException(exceptionMessageSupplier.get());
+            throw exceptionSupplier.get();
         }
     }
 }

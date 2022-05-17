@@ -67,23 +67,14 @@ public class CalendarController {
     }
 
     private LocalDate fromStartOfWeek(final LocalDate date) {
-        switch (date.getDayOfWeek()) {
-            case MONDAY:
-                return date;
-            case TUESDAY:
-                return date.minusDays(1);
-            case WEDNESDAY:
-                return date.minusDays(2);
-            case THURSDAY:
-                return date.minusDays(3);
-            case FRIDAY:
-                return date.minusDays(4);
-            case SATURDAY:
-                return date.minusDays(5);
-            case SUNDAY:
-                return date.minusDays(6);
-            default:
-                throw new IllegalArgumentException();
-        }
+        return switch (date.getDayOfWeek()) {
+            case MONDAY -> date;
+            case TUESDAY -> date.minusDays(1);
+            case WEDNESDAY -> date.minusDays(2);
+            case THURSDAY -> date.minusDays(3);
+            case FRIDAY -> date.minusDays(4);
+            case SATURDAY -> date.minusDays(5);
+            case SUNDAY -> date.minusDays(6);
+        };
     }
 }
